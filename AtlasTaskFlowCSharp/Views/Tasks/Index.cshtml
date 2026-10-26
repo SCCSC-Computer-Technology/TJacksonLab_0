@@ -1,0 +1,180 @@
+﻿@using System.Linq
+@model List<AtlasTaskFlowCSharp.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "My Tasks";
+
+    int totalTasks = Model.Count;
+    int completedTasks = Model.Count(t => t.IsCompleted);
+    int remainingTasks = totalTasks - completedTasks;
+}
+
+<div class="container py-5">
+
+    <h1 class="display-5 fw-bold">My Tasks</h1>
+    <p class="lead">Organize your work and track your progress.</p>
+
+    <!-- Task Progress Summary -->
+    <div class="row mt-4">
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6">Total Tasks</h2>
+                    <p class="display-6">@totalTasks</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6">Completed</h2>
+                    <p class="display-6 text-success">@completedTasks</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 mb-3">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h2 class="h6">In Progress</h2>
+                    <p class="display-6 text-warning">@remainingTasks</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Add New Task -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+
+            <h2 class="h5">Add a New Task</h2>
+
+            <form asp-controller="Tasks"
+                  asp-action="Create"
+                  method="post">
+
+                <div class="mb-3">
+                    <label for="title" class="form-label">
+                        Task Title
+                    </label>
+
+                    <input type="text"
+                           id="title"
+                           name="title"
+                           class="form-control"
+                           required />
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">
+                        Description
+                    </label>
+
+                    <textarea id="description"
+                              name="description"
+                              class="form-control"
+                              rows="3"></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    Add Task
+                </button>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- Task List -->
+    <div class="card shadow-sm mt-4">
+        <div class="card-body">
+
+            <h2 class="h5">Your Task List</h2>
+
+            @if (Model.Count == 0)
+            {
+                <p class="text-muted">
+                    You don't have any tasks yet. Add your first task above!
+                </p>
+            }
+            else
+            {
+                <ul class="list-group">
+
+                    @foreach (var task in Model)
+                    {
+                        <li class="list-group-item">
+
+                            <h3 class="h6">@task.Title</h3>
+
+                            @if (!string.IsNullOrWhiteSpace(task.Description))
+                            {
+                                <p>@task.Description</p>
+                            }
+
+                            @if (task.IsCompleted)
+                            {
+                                <span class="badge bg-success">
+                                    Completed
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-warning text-dark">
+                                    In Progress
+                                </span>
+
+                                <form asp-controller="Tasks"
+                                      asp-action="Complete"
+                                      method="post"
+                                      class="mt-2">
+
+                                    <input type="hidden"
+                                           name="id"
+                                           value="@task.Id" />
+
+                                    <button type="submit"
+                                            class="btn btn-success btn-sm">
+                                        Mark Complete
+                                    </button>
+
+                                </form>
+                            }
+
+                            <form asp-controller="Tasks"
+                                  asp-action="Delete"
+                                  method="post"
+                                  class="mt-2">
+
+                                <input type="hidden"
+                                       name="id"
+                                       value="@task.Id" />
+
+                                <button type="submit"
+                                        class="btn btn-danger btn-sm">
+                                    Delete Task
+                                </button>
+
+                            </form>
+
+                        </li>
+                    }
+
+                </ul>
+            }
+
+        </div>
+    </div>
+
+    <!-- Back to Home -->
+    <a class="btn btn-outline-primary mt-3"
+       asp-controller="Home"
+       asp-action="Index">
+        Back to Home
+    </a>
+
+</div>
+

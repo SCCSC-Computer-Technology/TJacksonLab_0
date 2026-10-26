@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Atlas TaskFlow";
+}
+
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-3 fw-bold">Atlas TaskFlow</h1>
+
+        <p class="lead">
+            Organize your work. Manage your tasks. Reach your goals.
+        </p>
+
+        <p>
+            Welcome to your workspace! Keep track of your tasks
+            and stay focused on what matters.
+        </p>
+
+        <a class="btn btn-primary btn-lg"
+           asp-controller="Tasks"
+           asp-action="Index">
+            View My Tasks
+        </a>
+    </div>
+
+    <div class="row g-4 mt-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="h5">Organize Tasks</h2>
+                    <p>Keep your work organized in one place.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="h5">Track Progress</h2>
+                    <p>See what needs to be done and what is completed.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <h2 class="h5">Stay Focused</h2>
+                    <p>Keep your priorities in sight as you work.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
